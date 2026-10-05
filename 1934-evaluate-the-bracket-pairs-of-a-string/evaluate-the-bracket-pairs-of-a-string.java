@@ -1,47 +1,36 @@
 class Solution {
     public String evaluate(String s, List<List<String>> knowledge) {
+
+        HashMap<String, String> map = new HashMap<>();
+        StringBuilder result = new StringBuilder();
+
         
-   HashMap<String, String> map = new HashMap<>();
-StringBuilder temp=new StringBuilder("");
-StringBuilder result=new StringBuilder("");
-    for (List<String> pair : knowledge) {
-        map.put(pair.get(0), pair.get(1));
-    }
+        for (List<String> pair : knowledge) {
+            map.put(pair.get(0), pair.get(1));
+        }
 
-boolean flag=false;
-int i=0;
-while(i<s.length()){
-     if (s.charAt(i) == '(') {
-                flag = true;
-                temp.setLength(0);
-                i++;
+        int i = 0;
 
-                while (flag) {
-                    if (s.charAt(i) == ')') {
-                        flag = false;
-                    } else {
-                        temp.append(s.charAt(i));
-                    }
-                    i++;
+        while (i < s.length()) {
+if (s.charAt(i) == '(') {
+                int j = i + 1;
+
+                while (s.charAt(j) != ')') {
+                    j++;
                 }
-
-                if (map.containsKey(temp.toString())) {
-                    result.append(map.get(temp.toString()));
+                String key = s.substring(i + 1, j);
+                if (map.containsKey(key)) {
+                    result.append(map.get(key));
                 } else {
                     result.append('?');
                 }
-
+                i = j + 1;
             } else {
                 result.append(s.charAt(i));
                 i++;
             }
+        }
 
-}
-
-
-
-
-return result.toString();
-
-}   
+        return result.toString();
+    }
 }
